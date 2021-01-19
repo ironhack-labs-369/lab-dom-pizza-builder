@@ -130,8 +130,10 @@ function renderPrice() {
     document.querySelectorAll('aside > ul > li').forEach((item) => {
         console.log('', typeof item);
         console.log(item);
-        // totalPrice += Number(item.split(' ')[0].replace('$', ''));
-        console.log('item: ', item.name);
+        const li = document.createElement('li');
+        li.innerHTML = list;
+        const ul = querySelector('ul');
+        list.appendChild(li);
     });
     console.log('totalPrice', totalPrice);
 }
