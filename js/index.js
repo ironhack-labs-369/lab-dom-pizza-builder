@@ -19,6 +19,13 @@ let state = {
     glutenFreeCrust: false,
 };
 
+const lookup = {
+    pepperoni: '.btn-pepperoni',
+    mushrooms: '.btn-pepperoni',
+    greenPepper: '.btn-pepperoni',
+    whiteSauce: '.btn-pepperoni',
+};
+
 // This function takes care of rendering the pizza based on the state
 // This function is triggered once at the beginning and every time the state is changed
 function renderEverything() {
@@ -87,27 +94,16 @@ function renderGlutenFreeCrust() {
 
 //     // Iteration 3: add/remove the class "active" of each `<button class="btn">`
 function renderButtons() {
-    for (let ingredient in state) {
-        if (state[ingredient]) {
-            document
-                .querySelector(
-                    `.btn-${ingredient
-                        .split(/(?=[A-Z])/)
-                        .map((l) => l.toLowerCase())
-                        .join('-')}`
-                )
-                .classList.add('active');
+    // for (let ingredient in state) {
+    Object.keys(state).forEach((ingredient) => {
+        const button = document.querySelector(lookup[ingredient]);
+        console.log('button', button);
+        if (state.ingredient) {
+            button.classList.add('active');
         } else {
-            document
-                .querySelector(
-                    `.btn-${ingredient
-                        .split(/(?=[A-Z])/)
-                        .map((l) => l.toLowerCase())
-                        .join('-')}`
-                )
-                .classList.remove('active');
+            button.classList.remove('active');
         }
-    }
+    });
 
     // if (state.pepperoni) {
     //     document.querySelector('.btn-pepperoni').classList.add('active');
@@ -130,24 +126,24 @@ function renderButtons() {
     //     document.querySelector('.btn-sauce').classList.remove('active');
     // }
     // if (state.glutenFreeCrust) {
-    //     document.querySelector('.crust-gluten-free').classList.add('active');
+    //     document.querySelector('.btn-crust').classList.add('active');
     // } else {
-    //     document.querySelector('.crust-gluten-free').classList.remove('active');
+    //     document.querySelector('.btn-crust').classList.remove('active');
     // }
 }
 
 // Iteration 4: change the HTML of `<aside class="panel price">`
 function renderPrice() {
     let totalPrice = basePrice;
+    let list;
     for (let ingredient in state) {
         if (state[ingredient]) {
-            document.querySelector(
-                'aside ul'
-            ).innerHtml += `<li>$${ingredients[ingredient].price} ${ingredients[ingredient].name}</li>`;
+            list += `<li>$${ingredients[ingredient].price} ${ingredients[ingredient].name}</li>`;
             totalPrice += ingredients[ingredient].price;
         }
-        console.log('totalPrice', totalPrice);
     }
+    console.log('totalPrice', totalPrice);
+    document.querySelector('aside ul').innerHtml = list;
 
     document.querySelector('aside strong').innerHTML = `$${totalPrice}`;
 }
